@@ -86,7 +86,7 @@ npm --version
 Clone the repository:
 
 ``` bash
-git clone <repository-url>
+git clone https://github.com/ankushnikure/playwright-login-automation.git
 ```
 
 Navigate to the project directory:
