@@ -1,7 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { BASE_URL } from "@config/env";
 
 export default defineConfig({
   testDir: "./tests",
@@ -12,7 +10,7 @@ export default defineConfig({
   reporter: "html",
 
   use: {
-    baseURL: process.env.BASE_URL,
+    baseURL: BASE_URL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",

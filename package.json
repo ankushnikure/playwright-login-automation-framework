@@ -2,7 +2,10 @@
   "name": "playwright-login-automation",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:staging": "ENV=production npx playwright test",
+    "test:production": "ENV=staging npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
