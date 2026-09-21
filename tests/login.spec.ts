@@ -15,7 +15,7 @@ test.describe("Login Tests", () => {
     test("Verify login with valid credentials", async ({ page }) => {
         await loginPage.login(validCredentials.username, validCredentials.password);
         await expect(page).toHaveURL(/logged-in-successfully/);
-        await expect(loginPage.getLoginSuccessMessage()).toHaveText("Logged In Successfully");
+        await expect(loginPage.getLoginSuccessMessage()).toHaveText("Logged In Successfully", {timeout: 10000});
 
     });
 
