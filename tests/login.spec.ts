@@ -15,7 +15,8 @@ test.describe("Login Tests", () => {
     test("Verify login with valid credentials", async ({ page }) => {
         await loginPage.login(validCredentials.username, validCredentials.password);
         await expect(page).toHaveURL(/logged-in-successfully/);
-        await expect(loginPage.getLoginSuccessMessage()).toHaveText("Logged In Successfully", { timeout: 10000 }); // One specific assertion timeout
+        // One specific assertion timeout
+        await expect(loginPage.getLoginSuccessMessage()).toHaveText("Logged In Successfully", { timeout: 10000 });
     });
 
     test("Verify login with invalid credentials", async ({ page }) => {
@@ -27,8 +28,10 @@ test.describe("Login Tests", () => {
     });
 
     test("Verify login with invalid username", async ({ page }) => {
+        // Reusable custom assertion timeout
+        const slowExpect = expect.configure({ timeout: 10000 });
         await loginPage.login(invalidCredentials.username, validCredentials.password);
-        await expect(loginPage.getLoginErrorMessage()).toHaveText("Your username is invalid!");
+        await slowExpect(loginPage.getLoginErrorMessage()).toHaveText("Your username is invalid!");
 
     });
 
