@@ -1,4 +1,4 @@
-import { Locator } from "@playwright/test";
+import { Locator, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
 
 export class LoginPage extends BasePage {
@@ -10,15 +10,6 @@ export class LoginPage extends BasePage {
     private readonly loginSuccessMessage: Locator = this.page.getByRole('heading', { name: 'Logged In Successfully' });
     private readonly loginErrorMessage: Locator = this.page.locator('#error');
 
-    // Dynamic locators
-    getLoginSuccessMessage(): Locator {
-        return this.loginSuccessMessage;
-    }
-
-    getLoginErrorMessage(): Locator {
-        return this.loginErrorMessage;
-    }
-
     // Methods
     async login(username: string, password: string): Promise<void> {
        await this.usernameInput.fill(username);
@@ -26,4 +17,13 @@ export class LoginPage extends BasePage {
        await this.submitButton.click();
     }
 
+    async expectLoginSuccessMessage(message: string): Promise<void> {
+        await expect(this.loginSuccessMessage).toBeVisible();
+        await expect(this.loginSuccessMessage).toHaveText(message);
+    }
+
+    async expectLoginErrorMessage(message: string): Promise<void> {
+        await expect(this.loginErrorMessage).toBeVisible();
+        await expect(this.loginErrorMessage).toHaveText(message);
+    }
 } 

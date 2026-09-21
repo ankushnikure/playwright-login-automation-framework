@@ -4,7 +4,6 @@ import { LoginPage } from "@pages/login.page";
 import { validCredentials, invalidCredentials } from "@test-data/login.data";
 
 test.describe("Login Tests", () => {
-
     let loginPage: LoginPage;
 
     test.beforeEach(async ({ page }) => {
@@ -15,30 +14,22 @@ test.describe("Login Tests", () => {
     test("Verify login with valid credentials", async ({ page }) => {
         await loginPage.login(validCredentials.username, validCredentials.password);
         await expect(page).toHaveURL(/logged-in-successfully/);
-        // One specific assertion timeout
-        await expect(loginPage.getLoginSuccessMessage()).toHaveText("Logged In Successfully", { timeout: 10000 });
+        await loginPage.expectLoginSuccessMessage("Logged In Successfully");
     });
 
-    test("Verify login with invalid credentials", async ({ page }) => {
-        // Entire test timeout
-        test.setTimeout(60000);
+    test("Verify login with invalid credentials", async () => {
         await loginPage.login(invalidCredentials.username, invalidCredentials.password);
-        await expect(loginPage.getLoginErrorMessage()).toHaveText("Your username is invalid!");
-
+        await loginPage.expectLoginErrorMessage("Your username is invalid!");
     });
 
-    test("Verify login with invalid username", async ({ page }) => {
-        // Reusable custom assertion timeout
-        const slowExpect = expect.configure({ timeout: 10000 });
+    test("Verify login with invalid username", async () => {
         await loginPage.login(invalidCredentials.username, validCredentials.password);
-        await slowExpect(loginPage.getLoginErrorMessage()).toHaveText("Your username is invalid!");
-
+        await loginPage.expectLoginErrorMessage("Your username is invalid!");
     });
 
-    test("Verify login with invalid password", async ({ page }) => {
+    test("Verify login with invalid password", async () => {
         await loginPage.login(validCredentials.username, invalidCredentials.password);
-        await expect(loginPage.getLoginErrorMessage()).toHaveText("Your password is invalid!");
-
+        await loginPage.expectLoginErrorMessage("Your password is invalid!");
     });
 
 });
